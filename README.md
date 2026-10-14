@@ -1,4 +1,11 @@
+
+
 # Ethixweb India — Full-Stack Developer Assessment
+ Project Walkthrough
+
+Duration: 1–2 minutes
+
+▶️ Watch the Ethixweb India Demo https://youtu.be/8QFUu_6Xum4
 
 [![Live Production Deployment](https://img.shields.io/badge/Vercel-Deployed-black?style=flat&logo=vercel)](https://ethixweb-india-snowy.vercel.app/)
 [![Lighthouse Desktop](https://img.shields.io/badge/Lighthouse%20Desktop-93%2F100-brightgreen?style=flat)](https://ethixweb-india-snowy.vercel.app/)

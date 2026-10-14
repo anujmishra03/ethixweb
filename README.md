@@ -5,7 +5,7 @@
 
 Duration: 1–2 minutes
 
-▶️ Watch the Ethixweb India Demo [ https://youtu.be/8QFUu_6Xum4](https://youtube.com/shorts/WEqr_13wTkA?feature=share)
+▶️ Watch the Ethixweb India Demo https://youtube.com/shorts/HSG5KFlPBFM?si=Wg4jP_riiotOFCA_
 
 [![Live Production Deployment](https://img.shields.io/badge/Vercel-Deployed-black?style=flat&logo=vercel)](https://ethixweb-india-snowy.vercel.app/)
 [![Lighthouse Desktop](https://img.shields.io/badge/Lighthouse%20Desktop-93%2F100-brightgreen?style=flat)](https://ethixweb-india-snowy.vercel.app/)

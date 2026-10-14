@@ -147,6 +147,82 @@ function HeroGlobeSlot() {
   );
 }
 
+function ProjectCard({ p, i }) {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <article className="project-card">
+      <div className={`project-art ${p.cls}`}>
+        <span className="project-label">{p.label}</span>
+        {i === 0 ? (
+          <div className="commerce-mock">
+            <div className="mock-nav">FORM / FUNCTION <span>SHOP ↗</span></div>
+            <div className="mock-orb" />
+            <div className="mock-type">Made for<br /><i>every day.</i></div>
+            <div className="mock-pill">DISCOVER THE EDIT ↗</div>
+          </div>
+        ) : i === 1 ? (
+          <div className="flow-mock">
+            <div className="flow-node">NEW ENQUIRY <ArrowUpRight size={14} /></div>
+            <div className="flow-line" />
+            <div className="flow-node flow-node-dark">SMART ROUTING <Workflow size={15} /></div>
+            <div className="flow-line" />
+            <div className="flow-node">TEAM NOTIFIED <Check size={14} /></div>
+            <span className="flow-caption">ONE CONNECTED SYSTEM</span>
+          </div>
+        ) : (
+          <div className="web-mock">
+            <div className="web-mock-nav">NORTH / STUDIO <span>MENU +</span></div>
+            <div className="web-mock-head">Clarity in<br /><em>every detail.</em></div>
+            <div className="web-mock-circle">N°01</div>
+            <div className="web-mock-foot">BUILT FOR WHAT'S NEXT ↗</div>
+          </div>
+        )}
+      </div>
+
+      <div className="project-meta">
+        <span className="eyebrow">{p.type}</span>
+        <span className="project-stat">{p.stat}</span>
+      </div>
+
+      <h3>{p.title}</h3>
+      <p>{p.desc}</p>
+
+      <button
+        type="button"
+        className="work-details-toggle"
+        onClick={() => setExpanded(!expanded)}
+        aria-expanded={expanded}
+        aria-controls={`case-details-${p.id}`}
+      >
+        {expanded ? 'Hide case overview' : 'View case breakdown'}
+        <ArrowRight
+          size={13}
+          style={{
+            transform: expanded ? 'rotate(90deg)' : 'none',
+            transition: 'transform 0.2s ease'
+          }}
+        />
+      </button>
+
+      {expanded && (
+        <div id={`case-details-${p.id}`} className="case-study-drawer">
+          <strong>THE CHALLENGE</strong>
+          <p>{p.problem}</p>
+          <strong>ENGINEERING SOLUTION</strong>
+          <p>{p.solution}</p>
+          <strong>TECHNOLOGY ARCHITECTURE</strong>
+          <div className="case-tech-chips">
+            {p.techStack.map(t => (
+              <span key={t}>{t}</span>
+            ))}
+          </div>
+        </div>
+      )}
+    </article>
+  );
+}
+
 function Home() {
   return (
     <>
@@ -207,7 +283,7 @@ function Home() {
             {services.map(s => (
               <article className="service-card" key={s.n}>
                 <div className="service-card-top">
-                  <span>{s.n} / 04</span>
+                  <span>{s.n} / 06</span>
                   <s.icon size={22} strokeWidth={1.5} />
                 </div>
                 <h3>{s.title}</h3>
@@ -217,7 +293,7 @@ function Home() {
                     <span key={t}>{t}</span>
                   ))}
                 </div>
-                <Link to="/services" className="round-arrow" aria-label={`Explore ${s.title}`}>
+                <Link to={`/services#${s.id}`} className="round-arrow" aria-label={`Explore ${s.title}`}>
                   <ArrowUpRight size={18} />
                 </Link>
               </article>
@@ -226,7 +302,7 @@ function Home() {
           <div className="section-link-row">
             <span>From a sharp first impression to a better operating system.</span>
             <Link className="text-link" to="/services">
-              Explore all services <ArrowRight size={16} />
+              Explore all 6 services <ArrowRight size={16} />
             </Link>
           </div>
         </div>
@@ -245,41 +321,7 @@ function Home() {
           </div>
           <div className="project-grid">
             {projects.map((p, i) => (
-              <article className="project-card" key={p.title}>
-                <div className={`project-art ${p.cls}`}>
-                  <span className="project-label">{p.label}</span>
-                  {i === 0 ? (
-                    <div className="commerce-mock">
-                      <div className="mock-nav">FORM / FUNCTION <span>SHOP ↗</span></div>
-                      <div className="mock-orb" />
-                      <div className="mock-type">Made for<br /><i>every day.</i></div>
-                      <div className="mock-pill">DISCOVER THE EDIT ↗</div>
-                    </div>
-                  ) : i === 1 ? (
-                    <div className="flow-mock">
-                      <div className="flow-node">NEW ENQUIRY <ArrowUpRight size={14} /></div>
-                      <div className="flow-line" />
-                      <div className="flow-node flow-node-dark">SMART ROUTING <Workflow size={15} /></div>
-                      <div className="flow-line" />
-                      <div className="flow-node">TEAM NOTIFIED <Check size={14} /></div>
-                      <span className="flow-caption">ONE CONNECTED SYSTEM</span>
-                    </div>
-                  ) : (
-                    <div className="web-mock">
-                      <div className="web-mock-nav">NORTH / STUDIO <span>MENU +</span></div>
-                      <div className="web-mock-head">Clarity in<br /><em>every detail.</em></div>
-                      <div className="web-mock-circle">N°01</div>
-                      <div className="web-mock-foot">BUILT FOR WHAT'S NEXT ↗</div>
-                    </div>
-                  )}
-                </div>
-                <div className="project-meta">
-                  <span className="eyebrow">{p.type}</span>
-                  <span className="project-stat">{p.stat}</span>
-                </div>
-                <h3>{p.title}</h3>
-                <p>{p.desc}</p>
-              </article>
+              <ProjectCard key={p.id || p.title} p={p} i={i} />
             ))}
           </div>
           <p className="work-note">

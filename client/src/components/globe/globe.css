@@ -1,0 +1,494 @@
+/* ==========================================================================
+   ETHIXWEB INDIA — ANIMATED 3D NETWORK GLOBE STYLES
+   Editorial, Minimal, and High-Performance
+   ========================================================================== */
+
+.globe-hero-container {
+  position: relative;
+  min-height: 520px;
+  width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  background: #ebe4d8;
+  border: 1px solid #dcd4c5;
+  box-shadow: 0 16px 40px rgba(32, 32, 30, 0.04), inset 0 0 0 1px #fbf8f2;
+  cursor: grab;
+  outline: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: border-color var(--transition);
+}
+
+.globe-hero-container:active {
+  cursor: grabbing;
+}
+
+.globe-hero-container:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
+
+.globe-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  touch-action: none;
+}
+
+/* --------------------------------------------------------------------------
+   Top HUD Bar
+   -------------------------------------------------------------------------- */
+.globe-hud-top {
+  position: absolute;
+  top: 16px;
+  left: 18px;
+  right: 18px;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.hud-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.hud-dot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+.hud-dot.live {
+  box-shadow: 0 0 0 0 rgba(217, 67, 50, 0.65);
+  animation: hudPulse 2.2s infinite;
+}
+
+@keyframes hudPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(217, 67, 50, 0.65);
+  }
+  70% {
+    box-shadow: 0 0 0 7px rgba(217, 67, 50, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(217, 67, 50, 0);
+  }
+}
+
+.hud-title {
+  color: #555047;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+
+.hud-meta {
+  color: #726c61;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.hud-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: auto;
+}
+
+.hud-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 9px;
+  border: 1px solid #d4ccbe;
+  border-radius: 2px;
+  background: #f7f5f0d9;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--ink);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  transition: all var(--transition);
+}
+
+.hud-btn:hover {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+
+.hud-btn-activate {
+  background: var(--red) !important;
+  color: #fff !important;
+  border-color: var(--red) !important;
+  padding: 5px 12px;
+  box-shadow: 0 4px 12px rgba(217, 67, 50, 0.25);
+  cursor: pointer;
+}
+
+.hud-btn-activate:hover {
+  background: var(--red-dark) !important;
+  border-color: var(--red-dark) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Floating Inspection Tooltip
+   -------------------------------------------------------------------------- */
+.globe-tooltip {
+  position: absolute;
+  z-index: 20;
+  pointer-events: none;
+  background: #20201ee8;
+  color: #f7f5f0;
+  padding: 9px 13px;
+  border: 1px solid #3c3a35;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+  transform: translate(-50%, -100%);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 145px;
+  transition: opacity 160ms ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.tooltip-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tooltip-code {
+  background: var(--red);
+  color: #fff;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+.tooltip-name {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.tooltip-role {
+  color: #b5b0a4;
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+.tooltip-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid #363532;
+  color: #d8d3c7;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.tooltip-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   Active Hub Telemetry Card
+   -------------------------------------------------------------------------- */
+.globe-active-card {
+  position: absolute;
+  bottom: 54px;
+  left: 18px;
+  z-index: 12;
+  max-width: 275px;
+  background: #f7f5f0ea;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid #ded5c6;
+  box-shadow: 0 8px 24px rgba(32, 32, 30, 0.06);
+  padding: 13px 15px;
+  animation: cardFadeIn 220ms ease;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.card-code {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--red);
+}
+
+.card-status {
+  font-size: 8px;
+  font-weight: 600;
+  color: #706a60;
+  letter-spacing: 0.5px;
+}
+
+.card-title {
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--ink);
+}
+
+.card-desc {
+  margin: 3px 0 10px;
+  color: #686359;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.card-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #e5ded1;
+}
+
+.card-stats > div:last-child {
+  grid-column: span 2;
+}
+
+.stat-label {
+  display: block;
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: #8c867b;
+}
+
+.stat-val {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 1px;
+}
+
+/* --------------------------------------------------------------------------
+   Bottom HUD Bar
+   -------------------------------------------------------------------------- */
+.globe-hud-bottom {
+  position: absolute;
+  bottom: 14px;
+  left: 18px;
+  right: 18px;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.hud-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  pointer-events: auto;
+}
+
+.hud-pill {
+  border: 1px solid #d5cdbf;
+  background: #f7f5f0b8;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #555047;
+  padding: 4px 8px;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: all var(--transition);
+}
+
+.hud-pill:hover {
+  background: #eee5d7;
+  color: var(--ink);
+}
+
+.hud-pill.active {
+  background: var(--red);
+  color: #fff;
+  border-color: var(--red);
+}
+
+.hud-readout {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #6a6458;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  pointer-events: auto;
+  white-space: nowrap;
+}
+
+.pulse-icon {
+  color: var(--red);
+  animation: readoutPulse 2s infinite ease-in-out;
+}
+
+@keyframes readoutPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   Fallback Graphic
+   -------------------------------------------------------------------------- */
+.globe-fallback-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #ebe4d8;
+}
+
+.fallback-svg-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 45px 20px;
+}
+
+.fallback-svg {
+  width: 100%;
+  height: 100%;
+  max-width: 440px;
+  max-height: 440px;
+  display: block;
+}
+
+.hud-caption {
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  color: #726c62;
+  text-transform: uppercase;
+  pointer-events: auto;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive & Tablet / Mobile Overrides
+   -------------------------------------------------------------------------- */
+@media (max-width: 1000px) {
+  .globe-hero-container,
+  .globe-fallback-card {
+    min-height: 460px;
+  }
+
+  .globe-active-card {
+    bottom: 50px;
+    max-width: 240px;
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 720px) {
+  .globe-hero-container,
+  .globe-fallback-card {
+    min-height: 380px;
+  }
+
+  .globe-hud-top {
+    top: 12px;
+    left: 14px;
+    right: 14px;
+  }
+
+  .hud-title {
+    font-size: 8px;
+    letter-spacing: 0.8px;
+  }
+
+  .globe-hud-bottom {
+    bottom: 12px;
+    left: 14px;
+    right: 14px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .hud-pills {
+    overflow-x: auto;
+    max-width: 100%;
+    padding-bottom: 2px;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hud-pill {
+    flex: 0 0 auto;
+  }
+
+  .hud-readout {
+    display: none;
+  }
+
+  .globe-active-card {
+    display: none;
+  }
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  .hud-dot.live,
+  .pulse-icon {
+    animation: none !important;
+  }
+}
